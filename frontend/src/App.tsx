@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { Container, AppBar, Toolbar, Typography, Button } from '@mui/material';
+import { Container, AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import theme from './theme';
 import Home from './pages/Home';
@@ -14,23 +14,39 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Influencer Connection
-            </Typography>
-            <Button color="inherit" component={Link} to="/">
-              Home
-            </Button>
-            <Button color="inherit" component={Link} to="/login">
-              Login
-            </Button>
-            <Button color="inherit" component={Link} to="/register">
-              Register
-            </Button>
+        <AppBar position="fixed" color="default">
+          <Toolbar sx={{ justifyContent: 'space-between' }}>
+            <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+              <Box
+                component="img"
+                src="/assets/images/logo.svg"
+                alt="Influencer Connection"
+                sx={{ height: 40, mr: 2 }}
+              />
+              <Typography variant="h6" color="primary">
+                Influencer Connection
+              </Typography>
+            </Link>
+            <Box>
+              <Button color="primary" component={Link} to="/search" sx={{ mr: 2 }}>
+                Find Influencers
+              </Button>
+              <Button color="primary" component={Link} to="/login" sx={{ mr: 2 }}>
+                Login
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                component={Link}
+                to="/register"
+              >
+                Get Started
+              </Button>
+            </Box>
           </Toolbar>
         </AppBar>
-        <Container>
+        <Toolbar /> {/* Spacer for fixed AppBar */}
+        <Box component="main">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/search" element={<Search />} />
@@ -38,7 +54,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Routes>
-        </Container>
+        </Box>
       </Router>
     </ThemeProvider>
   );
