@@ -1,13 +1,18 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Text, Container, VStack } from '@chakra-ui/react';
 
 function InfluencerProfile() {
   return (
-    <Box sx={{ mt: 4 }}>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Influencer Profile
-      </Typography>
-    </Box>
+    <Container maxW="container.xl" py={8}>
+      <VStack spacing={4} align="stretch">
+        <Text fontSize="2xl" fontWeight="bold">
+          Influencer Profile
+        </Text>
+        <Box>
+          {/* Profile content will go here */}
+        </Box>
+      </VStack>
+    </Container>
   );
 }
 

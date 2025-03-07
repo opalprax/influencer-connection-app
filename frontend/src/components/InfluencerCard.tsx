@@ -1,49 +1,85 @@
-import { Card, CardContent, CardMedia, Typography, Box, Chip } from '@mui/material';
-import { Influencer } from '../types/types';
+import React from 'react';
+import {
+  Box,
+  Image,
+  Text,
+  HStack,
+  VStack,
+  Badge,
+  Button,
+  useColorModeValue,
+} from '@chakra-ui/react';
+import { Influencer } from '../types/influencer';
 
 interface InfluencerCardProps {
   influencer: Influencer;
+  onContactInfluencer: (influencer: Influencer) => void;
 }
 
-const InfluencerCard = ({ influencer }: InfluencerCardProps) => {
+function InfluencerCard({ influencer, onContactInfluencer }: InfluencerCardProps) {
+  const bgColor = useColorModeValue('white', 'gray.800');
+  const borderColor = useColorModeValue('gray.200', 'gray.700');
+
   return (
-    <Card>
-      <CardMedia
-        component="img"
-        height="200"
-        image={influencer.profileImage}
-        alt={influencer.name}
-      />
-      <CardContent>
-        <Typography variant="h6" gutterBottom>
-          {influencer.name}
-        </Typography>
-        <Box sx={{ mb: 1 }}>
-          {influencer.categories.map((category) => (
-            <Chip
-              key={category}
-              label={category}
-              size="small"
-              sx={{ mr: 0.5, mb: 0.5 }}
-            />
-          ))}
-        </Box>
-        <Typography variant="body2" color="text.secondary" gutterBottom>
-          {influencer.metrics.followers.toLocaleString()} followers
-        </Typography>
-        <Typography variant="h6" color="primary">
-          ${influencer.pricing.basePrice} {influencer.pricing.currency}
-        </Typography>
-        {influencer.aiMatchScore && (
-          <Box sx={{ mt: 1 }}>
-            <Typography variant="body2" color="text.secondary">
-              Match Score: {Math.round(influencer.aiMatchScore * 100)}%
-            </Typography>
-          </Box>
-        )}
-      </CardContent>
-    </Card>
+    <Box
+      bg={bgColor}
+      p={6}
+      borderRadius="xl"
+      boxShadow="md"
+      border="1px"
+      borderColor={borderColor}
+      transition="transform 0.2s"
+      _hover={{
+        transform: 'translateY(-4px)',
+        boxShadow: 'lg',
+      }}
+    >
+      <VStack spacing={4} align="stretch">
+        <Image
+          src={influencer.imageUrl}
+          alt={influencer.name}
+          borderRadius="lg"
+          objectFit="cover"
+          height="200px"
+          width="100%"
+        />
+        <VStack align="stretch" spacing={2}>
+          <Text fontSize="xl" fontWeight="bold">
+            {influencer.name}
+          </Text>
+          <HStack>
+            {influencer.categories.map((category) => (
+              <Badge
+                key={category.name}
+                colorScheme={category.color.split('.')[0]}
+              >
+                {category.name}
+              </Badge>
+            ))}
+          </HStack>
+          <HStack justify="space-between">
+            <Text color="gray.500">
+              {influencer.followers.toLocaleString()} followers
+            </Text>
+            <Text color="gray.500">
+              {influencer.engagementRate.toFixed(1)}% engagement
+            </Text>
+          </HStack>
+          <Button
+            colorScheme="brand"
+            size="md"
+            onClick={() => onContactInfluencer(influencer)}
+            _hover={{
+              transform: 'translateY(-2px)',
+              boxShadow: 'sm',
+            }}
+          >
+            Contact
+          </Button>
+        </VStack>
+      </VStack>
+    </Box>
   );
-};
+}
 
 export default InfluencerCard; 
